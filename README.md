@@ -1,5 +1,10 @@
 # ReBongo — Bongo 的非官方 NeoForge 26.2 移植
 
+> **原项目（上游）**
+> - Bongo — <https://github.com/noeppi-noeppi/Bongo>
+> - BingoLobby — <https://github.com/noeppi-noeppi/BingoLobby>
+> - LibX — <https://github.com/ModdingX/LibX>
+>
 > **非官方项目**：这是社区维护的移植版，不是官方发布，与原作者 **noeppi_noeppi** 没有隶属关系，也未获其背书或赞助。原项目为 **Bongo**（mcmod 分类「宾果游戏」）。
 >
 > **许可**：Apache License 2.0。部分素材/代码来自 Botania，遵循 [Botania License](https://botaniamod.net/license.php)，详见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
