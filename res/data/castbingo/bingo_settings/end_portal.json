@@ -1,0 +1,18 @@
+{
+  "equipment": {
+    "inventory": [
+      {
+        "id": "minecraft:end_portal_frame",
+        "count": 12
+      },
+      {
+        "id": "minecraft:ender_pearl",
+        "count": 16
+      },
+      {
+        "id": "minecraft:blaze_rod",
+        "count": 6
+      }
+    ]
+  }
+}

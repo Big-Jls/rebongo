@@ -1,0 +1,55 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "Apache-2.0"
+issueTrackerURL = "https://github.com/Big-Jls/rebongo/issues"
+
+[[mods]]
+modId = "bongo"
+version = "26.2-1.0.0-port.1"
+displayName = "ReBongo (Unofficial NeoForge Port)"
+displayURL = "https://github.com/Big-Jls/rebongo"
+authors = "noeppi_noeppi (original Bongo), Big_Jls (NeoForge port), DeepSeek-v4.1-Flash-1017 (port assistant)"
+description = '''
+Unofficial community port of Bongo (a Bingo minigame) to Minecraft 26.2 / NeoForge.
+Not affiliated with or endorsed by the original author.
+Original project: https://github.com/noeppi-noeppi/Bongo (Apache-2.0).
+Source of this port: https://github.com/Big-Jls/rebongo
+'''
+
+[[dependencies.bongo]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26.2.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.bongo]]
+modId = "minecraft"
+type = "required"
+versionRange = "[26.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.bongo]]
+modId = "libx"
+type = "required"
+versionRange = "[26.2-8.0.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.bongo]]
+modId = "jei"
+type = "optional"
+versionRange = "[28,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.bongo]]
+modId = "jade"
+type = "optional"
+versionRange = "[18,)"
+ordering = "NONE"
+side = "BOTH"
+
+[features.bongo]
+javaVersion = "[25,)"

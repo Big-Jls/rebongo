@@ -1,0 +1,7 @@
+{
+  "game": {
+    "invulnerable": false,
+    "friendly_fire": false,
+    "pvp": false
+  }
+}

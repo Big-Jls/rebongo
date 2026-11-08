@@ -1,0 +1,6 @@
+{
+  "game": {
+    "win_condition": "bongo.all",
+    "leaderboard": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "game":  {
+                  "win_condition":  "bongo.lock",
+                  "lockout":  true,
+                  "time":  1800,
+                  "leaderboard":  true
+              },
+    "level":  {
+                  "teleporter":  "bongo.default",
+                  "teleport_radius":  10000
+              }
+}

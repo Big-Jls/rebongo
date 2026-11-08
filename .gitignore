@@ -1,0 +1,15 @@
+# Build output
+/build/
+/stage/
+/dist/
+/build.args
+/build.sources
+
+# IDE
+/.idea/
+/.vscode/
+*.iml
+
+# OS
+Thumbs.db
+.DS_Store

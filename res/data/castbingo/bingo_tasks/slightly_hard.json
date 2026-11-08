@@ -1,0 +1,299 @@
+{
+  "tasks": [
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:bamboo_planks"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:bamboo_chest_raft"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:cherry_sapling"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:cherry_planks"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:packed_mud"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:mud_bricks"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:mud"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:mangrove_propagule"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:mangrove_wood"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:mangrove_hanging_sign"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:tadpole_bucket"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 100,
+      "value": {
+        "id": "minecraft:cactus"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:diamond"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:diamond_chestplate"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:andesite"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:netherite_ingot"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:netherite_chestplate"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:amethyst_block"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:goat_horn"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:pointed_dripstone"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:sunflower"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:cartography_table"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:ender_chest"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:brush"
+      }
+    },
+    {
+      "type": "bongo.item",
+      "weight": 15,
+      "value": {
+        "id": "minecraft:dirt"
+      }
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:story/form_obsidian"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:story/form_obsidian"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:story/iron_tools"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:nether/return_to_sender"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:nether/distract_piglin"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:nether/charge_respawn_anchor"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:adventure/ol_betsy"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:adventure/salvage_sherd"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:adventure/craft_decorated_pot_using_only_sherds"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:adventure/walk_on_powder_snow_with_leather_boots"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:adventure/whos_the_pillager_now"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:adventure/summon_iron_golem"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:story/follow_ender_eye"
+    },
+    {
+      "type": "bongo.advancement",
+      "weight": 20,
+      "value": "minecraft:nether/obtain_ancient_debris"
+    },
+    {
+      "type": "bongo.entity",
+      "weight": 20,
+      "value": "minecraft:rabbit"
+    },
+    {
+      "type": "bongo.entity",
+      "weight": 20,
+      "value": "minecraft:warden"
+    },
+    {
+      "type": "bongo.entity",
+      "weight": 20,
+      "value": "minecraft:elder_guardian"
+    },
+    {
+      "type": "bongo.entity",
+      "weight": 20,
+      "value": "minecraft:glow_squid"
+    },
+    {
+      "type": "bongo.entity",
+      "weight": 20,
+      "value": "minecraft:camel"
+    },
+    {
+      "type": "bongo.entity",
+      "weight": 20,
+      "value": "minecraft:ghast"
+    },
+    {
+      "type": "bongo.entity",
+      "weight": 20,
+      "value": "minecraft:witch"
+    },
+    {
+      "type": "bongo.biome",
+      "weight": 100,
+      "value": "minecraft:desert"
+    },
+    {
+      "type": "bongo.biome",
+      "weight": 15,
+      "value": "minecraft:swamp"
+    },
+    {
+      "type": "bongo.biome",
+      "weight": 15,
+      "value": "minecraft:plains"
+    }
+  ]
+}
