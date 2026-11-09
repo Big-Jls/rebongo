@@ -76,6 +76,17 @@ public final class BingoMod extends ModX {
       instance = this;
       network = new BingoNetwork(this);
       container.registerConfig(Type.CLIENT, ClientConfig.CLIENT_CONFIG);
+
+      // 命令参数类型必须注册进 ArgumentTypeInfos.BY_CLASS，否则同步命令树时
+      // 会抛出 Unrecognized argument type 并导致玩家无法进入世界
+      ArgumentTypeInfos.registerByClass(GameTasksArgument.class, GameTasksArgument.Info.INSTANCE);
+      ArgumentTypeInfos.registerByClass(GameSettingsArgument.class, GameSettingsArgument.Info.INSTANCE);
+      logger.info(
+         "Command argument types registered: tasks={}, settings={}",
+         ArgumentTypeInfos.isClassRecognized(GameTasksArgument.class),
+         ArgumentTypeInfos.isClassRecognized(GameSettingsArgument.class)
+      );
+
       IEventBus bus = container.getEventBus();
       bus.addListener(this::registerStuff);
       if (FMLEnvironment.getDist() == Dist.CLIENT) {

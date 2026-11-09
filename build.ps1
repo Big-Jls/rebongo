@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "26.2-1.0.0-port.3",
+    [string]$Version = "26.2-1.0.0-port.4",
     [string]$MinecraftDir = "D:\minecraft\.minecraft",
     [string]$NeoForgeVersion = "26.2-NeoForge_26.2.0.93",
     [string]$LibXJar = "",
@@ -25,6 +25,10 @@ if (-not (Test-Path $gameJar)) { throw "Minecraft/NeoForge version jar not found
 
 # Classpath: game jar + NeoForge universal + all Maven libraries + LibX
 $cp = New-Object System.Collections.Generic.List[string]
+# Prefer the NeoForge-patched client jar so patched methods such as
+# ArgumentTypeInfos.registerByClass are visible at compile time.
+$patched = Join-Path $MinecraftDir "libraries\net\neoforged\minecraft-client-patched\26.2.0.93\minecraft-client-patched-26.2.0.93.jar"
+if (Test-Path $patched) { $cp.Add($patched) }
 $cp.Add($gameJar)
 $universal = Join-Path $MinecraftDir "libraries\net\neoforged\neoforge\26.2.0.93\neoforge-26.2.0.93-universal.jar"
 if (Test-Path $universal) { $cp.Add($universal) }

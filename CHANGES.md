@@ -1,5 +1,15 @@
 # Changelog
 
+## 26.2-1.0.0-port.4 — 2026-11-10
+
+### Fixed
+
+- Registered `GameTasksArgument` and `GameSettingsArgument` with
+  `ArgumentTypeInfos.registerByClass`. Without this the command tree could not
+  be serialised for players, so joining a world/server failed with
+  `IllegalArgumentException: Unrecognized argument type` and the player was
+  disconnected with "Invalid player data".
+
 ## 26.2-1.0.0-port.3 — 2026-11-09
 
 ### Changed
