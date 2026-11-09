@@ -39,7 +39,7 @@ public class BackpackContainerProvider implements MenuProvider {
 
    @Nullable
    public AbstractContainerMenu createMenu(int containerId, @Nonnull Inventory inventory, @Nonnull Player player) {
-      return ChestMenu.threeRows(containerId, inventory, new BackpackContainerProvider.HandlerContainer(this.handler, this.dirty));
+      return ChestMenu.sixRows(containerId, inventory, new BackpackContainerProvider.HandlerContainer(this.handler, this.dirty));
    }
 
    private static class HandlerContainer implements Container {

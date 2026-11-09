@@ -48,7 +48,7 @@ public class Team {
       this.locked = 0;
       this.teleportsLeft = 0;
       this.players = new ArrayList<>();
-      this.backpack = new ItemStackHandler(27);
+      this.backpack = new ItemStackHandler(54);
    }
 
    public MutableComponent getName() {

@@ -5,7 +5,7 @@ issueTrackerURL = "https://github.com/Big-Jls/rebongo/issues"
 
 [[mods]]
 modId = "bongo"
-version = "26.2-1.0.0-port.2"
+version = "26.2-1.0.0-port.3"
 displayName = "ReBongo (Unofficial NeoForge Port)"
 displayURL = "https://github.com/Big-Jls/rebongo"
 authors = "noeppi_noeppi (original Bongo), Big_Jls (NeoForge port), DeepSeek-v4.1-Flash-1017 (port assistant)"

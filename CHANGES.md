@@ -1,5 +1,13 @@
 # Changelog
 
+## 26.2-1.0.0-port.3 — 2026-11-09
+
+### Changed
+
+- Team backpacks now have 54 slots instead of 27 (`/bingo bp` renders a
+  six-row chest). Existing backpacks keep their items; the extra slots start
+  empty.
+
 ## 26.2-1.0.0-port.2 — 2026-11-09
 
 ### Added
