@@ -1,5 +1,18 @@
 # Changelog
 
+## 26.2-1.0.0-port.5 — 2026-11-10
+
+### Fixed
+
+- Entity task icons no longer turn into a spawner (or vanish) when the world
+  difficulty is peaceful: render entities are now created with
+  `EntitySpawnRequest(..., ignoreChecks = true)`, so the difficulty check in
+  `EntityType#create` can no longer return `null` for hostile mobs.
+- When an entity really cannot be created or rendered, the icon now falls back
+  to the matching spawn egg instead of a generic spawner, and a warning with
+  the entity type (and stack trace, if rendering threw) is written to the log
+  once per type.
+
 ## 26.2-1.0.0-port.4 — 2026-11-10
 
 ### Fixed

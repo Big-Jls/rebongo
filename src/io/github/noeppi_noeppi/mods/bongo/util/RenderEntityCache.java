@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntitySpawnRequest;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
@@ -39,7 +40,15 @@ public class RenderEntityCache {
          return (T)CACHE.get(type);
       }
 
-      T entity = (T)type.create(level, EntitySpawnReason.EVENT);
+      T entity;
+      try {
+         // ignoreChecks: the difficulty / feature-flag check in EntityType#create would return null
+         // for hostile mobs in peaceful worlds, which made their bingo icons fall back to a spawner.
+         entity = type.create(level, new EntitySpawnRequest(EntitySpawnReason.EVENT, true));
+      } catch (RuntimeException e) {
+         entity = null;
+      }
+
       if (entity == null) {
          return null;
       }

@@ -9,9 +9,12 @@
  */
 package io.github.noeppi_noeppi.mods.bongo.task;
 
+import io.github.noeppi_noeppi.mods.bongo.BingoMod;
 import io.github.noeppi_noeppi.mods.bongo.render.RenderOverlay;
 import io.github.noeppi_noeppi.mods.bongo.util.ItemRenderUtil;
 import io.github.noeppi_noeppi.mods.bongo.util.RenderEntityCache;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
@@ -29,6 +32,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -39,6 +43,7 @@ import org.joml.Vector3f;
 
 public class TaskTypeEntity extends RegistryTaskType<EntityType<?>> {
    public static final TaskTypeEntity INSTANCE = new TaskTypeEntity();
+   private static final Set<EntityType<?>> FALLBACK_LOGGED = new HashSet<>();
 
    private TaskTypeEntity() {
       super((Class<EntityType<?>>)(Class<?>)EntityType.class, BuiltInRegistries.ENTITY_TYPE);
@@ -85,13 +90,13 @@ public class TaskTypeEntity extends RegistryTaskType<EntityType<?>> {
    public void renderSlotContent(Minecraft mc, GuiGraphicsExtractor graphics, EntityType<?> element, boolean bigBongo) {
       Entity entity = RenderEntityCache.getRenderEntity(mc, (EntityType<Entity>)element);
       if (entity == null) {
-         ItemRenderUtil.renderItem(graphics, new ItemStack(Items.SPAWNER), !bigBongo);
+         renderFallback(graphics, element, bigBongo, null);
       } else {
          try {
             EntityRenderDispatcher dispatcher = mc.getEntityRenderDispatcher();
             EntityRenderer<Entity, EntityRenderState> renderer = (EntityRenderer<Entity, EntityRenderState>)(EntityRenderer<?, ?>)dispatcher.getRenderer(entity);
             if (renderer == null) {
-               ItemRenderUtil.renderItem(graphics, new ItemStack(Items.SPAWNER), !bigBongo);
+               renderFallback(graphics, element, bigBongo, null);
                return;
             }
 
@@ -117,8 +122,22 @@ public class TaskTypeEntity extends RegistryTaskType<EntityType<?>> {
             Vector3f translation = new Vector3f(0.0F, renderHeight / 2.0F, 0.0F);
             graphics.entity(state, scale, translation, rotation, new Quaternionf(), x0, y0, x1, y1);
          } catch (Exception e) {
-            ItemRenderUtil.renderItem(graphics, new ItemStack(Items.SPAWNER), !bigBongo);
+            renderFallback(graphics, element, bigBongo, e);
          }
       }
+   }
+
+   @OnlyIn(Dist.CLIENT)
+   private static void renderFallback(GuiGraphicsExtractor graphics, EntityType<?> element, boolean bigBongo, @Nullable Throwable error) {
+      if (FALLBACK_LOGGED.add(element)) {
+         if (error != null) {
+            BingoMod.logger.warn("Could not render bingo icon for entity type {}, using item fallback", EntityType.getKey(element), error);
+         } else {
+            BingoMod.logger.warn("Could not create an entity for bingo icon {}, using item fallback", EntityType.getKey(element));
+         }
+      }
+
+      ItemStack stack = SpawnEggItem.byId(element).<ItemStack>map(egg -> new ItemStack(egg.value())).orElseGet(() -> new ItemStack(Items.SPAWNER));
+      ItemRenderUtil.renderItem(graphics, stack, !bigBongo);
    }
 }
