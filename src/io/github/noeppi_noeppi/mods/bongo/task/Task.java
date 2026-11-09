@@ -55,7 +55,7 @@ public class Task {
    }
 
    public <T> Task(TaskType<T> type, T element, boolean inverted, @Nullable Identifier customTexture) {
-      this(new Task.TaskContent(type, element), new Task.TaskExtension(inverted, Optional.ofNullable(customTexture)));
+      this(new Task.TaskContent(type, element), new Task.TaskExtension(inverted, Optional.ofNullable(customTexture), 1));
    }
 
    private Task(Task.TaskContent content, Task.TaskExtension ext) {
@@ -145,6 +145,14 @@ public class Task {
       return this.ext.customTexture.orElse(null);
    }
 
+   public int weight() {
+      return this.ext.weight;
+   }
+
+   public Task withWeight(int weight) {
+      return new Task(this.content, new Task.TaskExtension(this.ext.inverted, this.ext.customTexture, weight));
+   }
+
    public boolean inverted() {
       return this.ext.inverted;
    }
@@ -191,12 +199,13 @@ public class Task {
       }
    }
 
-   private record TaskExtension(boolean inverted, Optional<Identifier> customTexture) {
-      public static final Task.TaskExtension EMPTY = new Task.TaskExtension(false, Optional.empty());
+   private record TaskExtension(boolean inverted, Optional<Identifier> customTexture, int weight) {
+      public static final Task.TaskExtension EMPTY = new Task.TaskExtension(false, Optional.empty(), 1);
       public static final MapCodec<Task.TaskExtension> CODEC = RecordCodecBuilder.mapCodec(
          instance -> instance.group(
                Codec.BOOL.optionalFieldOf("inverted", false).forGetter(Task.TaskExtension::inverted),
-               Identifier.CODEC.optionalFieldOf("custom_texture").forGetter(Task.TaskExtension::customTexture)
+               Identifier.CODEC.optionalFieldOf("custom_texture").forGetter(Task.TaskExtension::customTexture),
+               Codec.INT.optionalFieldOf("card_weight", 1).forGetter(Task.TaskExtension::weight)
             )
             .apply(instance, Task.TaskExtension::new)
       );

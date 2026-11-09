@@ -1,5 +1,14 @@
 # Changelog
 
+## 26.2-1.0.0-port.2 — 2026-11-09
+
+### Added
+
+- Bingo cards now keep the task weight they were drawn with. `Task` exposes
+  `weight()` / `withWeight(int)` and serialises it as the optional
+  `card_weight` field (default `1`), so addons can identify the hardest task
+  on a running card without re-reading the task set definition.
+
 ## 26.2-1.0.0-port.1 — 2026-11-08
 
 First public source release of the unofficial NeoForge 26.2 port.

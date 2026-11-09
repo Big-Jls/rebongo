@@ -82,7 +82,7 @@ public class GameTaskGroup {
                if (weightCounted > rand) {
                   Either<Task, GameTaskGroup> taskDef = (Either<Task, GameTaskGroup>)pair.getFirst();
                   if (taskDef.left().isPresent()) {
-                     theTasks.add((Task)taskDef.left().get());
+                     theTasks.add(((Task)taskDef.left().get()).withWeight(pair.getSecond()));
                   } else if (taskDef.right().isPresent()) {
                      GameTaskGroup group = (GameTaskGroup)taskDef.right().get();
                      if (!theGroups.containsKey(group)) {
