@@ -1,5 +1,14 @@
 # Changelog
 
+## 26.2-1.0.0-port.6 — 2026-11-11
+
+### Packaging
+
+- Build artifact renamed from `Bingo-<version>.jar` to
+  `ReBongo-<version>.jar`, matching the project and in-game display name.
+- The mod id is still `bongo`. Remove any old `Bingo-*.jar` before installing
+  this version so the same mod id is not loaded from two jars.
+
 ## 26.2-1.0.0-port.5 — 2026-11-10
 
 ### Fixed

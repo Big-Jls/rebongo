@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "26.2-1.0.0-port.5",
+    [string]$Version = "26.2-1.0.0-port.6",
     [string]$MinecraftDir = "D:\minecraft\.minecraft",
     [string]$NeoForgeVersion = "26.2-NeoForge_26.2.0.93",
     [string]$LibXJar = "",
@@ -77,7 +77,7 @@ Copy-Item "$root\NOTICE" "$stage\META-INF\NOTICE" -Force
 Copy-Item "$root\THIRD-PARTY-NOTICES.md" "$stage\META-INF\THIRD-PARTY-NOTICES.md" -Force
 
 New-Item -ItemType Directory -Force -Path "$root\dist" | Out-Null
-$out = "$root\dist\Bingo-$Version.jar"
+$out = "$root\dist\ReBongo-$Version.jar"
 Remove-Item $out -Force -ErrorAction SilentlyContinue
 & $jarTool --create --file $out -C $stage .
 if ($LASTEXITCODE -ne 0) { throw "jar failed" }

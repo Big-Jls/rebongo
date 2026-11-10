@@ -35,8 +35,8 @@ LibX 请使用官方发布版（CurseForge 文件 ID 9409485）。本仓库不�
 ## 安装
 
 1. 安装 NeoForge 26.2.0.93+。
-2. 把 `Bingo-26.2-1.0.0-port.5.jar` 与 `LibX-26.2-8.0.0.jar` 放入 `mods`。
-   > 构建产物沿用上游 Bingo 的文件名，实际 `modId = bongo`，游戏内显示名为 ReBongo；文件名不影响加载。
+2. 把 `ReBongo-26.2-1.0.0-port.6.jar` 与 `LibX-26.2-8.0.0.jar` 放入 `mods`。
+   > 从 `26.2-1.0.0-port.6` 起构建产物改名为 `ReBongo-<version>.jar`。升级时请先删除旧的 `Bingo-*.jar`，避免同一个 `modId = bongo` 出现两个 jar。
 3. 客户端与服务端都需要安装。
 4. 进入游戏后由 OP 执行 `/bingo create <tasks_id> <settings_id>` 创建对局。
 
@@ -71,13 +71,13 @@ LibX 请使用官方发布版（CurseForge 文件 ID 9409485）。本仓库不�
 需要 JDK 25 与一份 NeoForge 26.2.0.93 客户端/服务端安装。示例：
 
 ```powershell
-.\build.ps1 -Version 26.2-1.0.0-port.5 `
+.\build.ps1 -Version 26.2-1.0.0-port.6 `
   -MinecraftDir "D:\minecraft\.minecraft" `
   -NeoForgeVersion "26.2-NeoForge_26.2.0.93" `
   -LibXJar "D:\minecraft\.minecraft\mods\LibX-26.2-8.0.0.jar"
 ```
 
-脚本会编译 `src/`、把 `res/` 与 `LICENSE` / `NOTICE` / `THIRD-PARTY-NOTICES.md` 打进 `dist/Bingo-<version>.jar`。
+脚本会编译 `src/`、把 `res/` 与 `LICENSE` / `NOTICE` / `THIRD-PARTY-NOTICES.md` 打进 `dist/ReBongo-<version>.jar`。
 
 ## 许可与致谢
 
