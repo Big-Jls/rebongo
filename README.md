@@ -36,6 +36,7 @@ LibX 请使用官方发布版（CurseForge 文件 ID 9409485）。本仓库不�
 
 1. 安装 NeoForge 26.2.0.93+。
 2. 把 `Bingo-26.2-1.0.0-port.5.jar` 与 `LibX-26.2-8.0.0.jar` 放入 `mods`。
+   > 构建产物沿用上游 Bingo 的文件名，实际 `modId = bongo`，游戏内显示名为 ReBongo；文件名不影响加载。
 3. 客户端与服务端都需要安装。
 4. 进入游戏后由 OP 执行 `/bingo create <tasks_id> <settings_id>` 创建对局。
 
