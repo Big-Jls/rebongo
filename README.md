@@ -35,7 +35,7 @@ LibX 请使用官方发布版（CurseForge 文件 ID 9409485）。本仓库不�
 ## 安装
 
 1. 安装 NeoForge 26.2.0.93+。
-2. 把 `Bingo-26.2-1.0.0-port.2.jar` 与 `LibX-26.2-8.0.0.jar` 放入 `mods`。
+2. 把 `Bingo-26.2-1.0.0-port.5.jar` 与 `LibX-26.2-8.0.0.jar` 放入 `mods`。
 3. 客户端与服务端都需要安装。
 4. 进入游戏后由 OP 执行 `/bingo create <tasks_id> <settings_id>` 创建对局。
 
@@ -70,7 +70,7 @@ LibX 请使用官方发布版（CurseForge 文件 ID 9409485）。本仓库不�
 需要 JDK 25 与一份 NeoForge 26.2.0.93 客户端/服务端安装。示例：
 
 ```powershell
-.\build.ps1 -Version 26.2-1.0.0-port.2 `
+.\build.ps1 -Version 26.2-1.0.0-port.5 `
   -MinecraftDir "D:\minecraft\.minecraft" `
   -NeoForgeVersion "26.2-NeoForge_26.2.0.93" `
   -LibXJar "D:\minecraft\.minecraft\mods\LibX-26.2-8.0.0.jar"
