@@ -61,6 +61,13 @@ public class TaskTypeItem implements TaskType<ItemStack> {
    }
 
    public Component contentName(ItemStack element, @Nullable MinecraftServer server) {
+      Identifier id = BuiltInRegistries.ITEM.getKey(element.getItem());
+      if (id != null && "minecraft".equals(id.getNamespace()) && id.getPath().startsWith("music_disc_")) {
+         return Component.empty()
+            .append(element.getHoverName())
+            .append(Component.literal(" (" + id.getPath().substring("music_disc_".length()) + ")"));
+      }
+
       return element.getHoverName();
    }
 

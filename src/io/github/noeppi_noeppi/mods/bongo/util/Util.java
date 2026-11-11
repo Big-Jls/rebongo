@@ -46,6 +46,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.scores.TeamColor;
 
 public class Util {
    public static final Component REQUIRED_ITEM = Component.translatable("bongo.tooltip.required").withStyle(ChatFormatting.GOLD);
@@ -73,8 +74,28 @@ public class Util {
       return "minecraft".equals(rl.getNamespace()) ? rl.getPath() : rl.toString();
    }
 
-   public static Style getTextFormatting(@Nullable DyeColor color) {
-      if (color == null) {
+   public static TeamColor getTeamColor(DyeColor color) {
+      return switch (color) {
+         case WHITE -> TeamColor.WHITE;
+         case ORANGE -> TeamColor.GOLD;
+         case MAGENTA -> TeamColor.LIGHT_PURPLE;
+         case LIGHT_BLUE -> TeamColor.AQUA;
+         case YELLOW -> TeamColor.YELLOW;
+         case LIME -> TeamColor.GREEN;
+         case PINK -> TeamColor.LIGHT_PURPLE;
+         case GRAY -> TeamColor.DARK_GRAY;
+         case LIGHT_GRAY -> TeamColor.GRAY;
+         case CYAN -> TeamColor.DARK_AQUA;
+         case PURPLE -> TeamColor.DARK_PURPLE;
+         case BLUE -> TeamColor.BLUE;
+         case BROWN -> TeamColor.GOLD;
+         case GREEN -> TeamColor.DARK_GREEN;
+         case RED -> TeamColor.RED;
+         case BLACK -> TeamColor.BLACK;
+      };
+   }
+
+   public static Style getTextFormatting(@Nullable DyeColor color) {      if (color == null) {
          return Style.EMPTY.applyFormat(ChatFormatting.RESET);
       }
 

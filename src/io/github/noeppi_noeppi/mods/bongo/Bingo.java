@@ -27,6 +27,7 @@ import io.github.noeppi_noeppi.mods.bongo.network.BingoMessageType;
 import io.github.noeppi_noeppi.mods.bongo.task.Task;
 import io.github.noeppi_noeppi.mods.bongo.task.TaskType;
 import io.github.noeppi_noeppi.mods.bongo.util.Highlight;
+import io.github.noeppi_noeppi.mods.bongo.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -54,6 +55,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -96,6 +99,44 @@ public class Bingo extends SavedData {
          return bingo;
       } else {
          return clientInstance == null ? new Bingo() : clientInstance;
+      }
+   }
+
+   // 26.2 不再触发 TabListNameFormat 事件，改用原版计分板队伍为 Tab 列表上色
+   public void syncScoreboardTeams() {
+      if (this.level == null || this.level.getServer() == null) {
+         return;
+      }
+
+      Scoreboard scoreboard = this.level.getScoreboard();
+      for (ServerPlayer player : this.level.getServer().getPlayerList().getPlayers()) {
+         Team team = this.getTeam(player);
+         PlayerTeam current = scoreboard.getPlayersTeam(player.getScoreboardName());
+         String wanted = team == null ? null : "bingo_" + team.color.getSerializedName();
+         if (wanted == null) {
+            if (current != null && current.getName().startsWith("bingo_")) {
+               scoreboard.removePlayerFromTeam(player.getScoreboardName(), current);
+            }
+         } else if (current == null || !current.getName().equals(wanted)) {
+            if (current != null && current.getName().startsWith("bingo_")) {
+               scoreboard.removePlayerFromTeam(player.getScoreboardName(), current);
+            }
+
+            PlayerTeam target = scoreboard.getPlayerTeam(wanted);
+            if (target == null) {
+               target = scoreboard.addPlayerTeam(wanted);
+               target.setDisplayName(team.getName());
+            }
+
+            target.setColor(Optional.of(Util.getTeamColor(team.color)));
+            scoreboard.addPlayerToTeam(player.getScoreboardName(), target);
+         }
+      }
+
+      for (PlayerTeam team : new ArrayList<>(scoreboard.getPlayerTeams())) {
+         if (team.getName().startsWith("bingo_") && team.getPlayers().isEmpty()) {
+            scoreboard.removePlayerTeam(team);
+         }
       }
    }
 

@@ -132,6 +132,7 @@ public class EventListener {
    @SubscribeEvent
    public void serverTick(Post event) {
       if (event.getServer().getTickCount() % 20 == 0) {
+         Bingo.get(event.getServer().overworld()).syncScoreboardTeams();
          for (ServerLevel level : event.getServer().getAllLevels()) {
             Bingo bingo = Bingo.get(level);
             if (bingo.running()) {

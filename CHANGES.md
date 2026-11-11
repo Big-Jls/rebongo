@@ -1,5 +1,17 @@
 # Changelog
 
+## 26.2-1.0.0-port.8 — 2026-11-12
+
+### Fixed
+
+- **Tab list team colors**: MC 26.2 no longer fires `TabListNameFormat`, so tab
+  names were never colored. Bingo now maintains a vanilla scoreboard team per
+  Bingo team (`bingo_<color>`) and syncs membership every second; empty teams
+  are removed after the game stops.
+- **Music disc task names**: all disc items share the name "Music Disc", so
+  task cards and messages were indistinguishable. Item task names now append
+  the disc id, e.g. `Music Disc (13)` / `音乐唱片 (13)`.
+
 ## 26.2-1.0.0-port.7 — 2026-11-12
 
 ### Fixed
