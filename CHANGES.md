@@ -1,5 +1,15 @@
 # Changelog
 
+## 26.2-1.0.0-port.7 — 2026-11-12
+
+### Fixed
+
+- Win condition names in the Bingo overlay no longer show raw translation keys
+  such as `bongo.wc.bongo.row_and_column`. After the port renamed win condition
+  ids from `bingo.*` to `bongo.*`, the overlay composed `bongo.wc.` + id while
+  the language files still used `bongo.wc.bingo.*`. All five bundled languages
+  now use `bongo.wc.bongo.*`.
+
 ## 26.2-1.0.0-port.6 — 2026-11-11
 
 ### Packaging
