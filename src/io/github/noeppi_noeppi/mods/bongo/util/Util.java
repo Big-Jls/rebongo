@@ -74,6 +74,11 @@ public class Util {
       return "minecraft".equals(rl.getNamespace()) ? rl.getPath() : rl.toString();
    }
 
+   /**
+    * DyeColor 到原版 TeamColor 的一一映射（16 种染料对应 16 种互不相同的 Tab 颜色）。
+    * 旧映射中橙色/棕色同为金色、品红/粉色同为亮紫，导致不同队伍在 Tab 列表颜色撞车；
+    * 现在粉色用深红、棕色用深蓝，保证每个队伍都有唯一颜色。
+    */
    public static TeamColor getTeamColor(DyeColor color) {
       return switch (color) {
          case WHITE -> TeamColor.WHITE;
@@ -82,13 +87,13 @@ public class Util {
          case LIGHT_BLUE -> TeamColor.AQUA;
          case YELLOW -> TeamColor.YELLOW;
          case LIME -> TeamColor.GREEN;
-         case PINK -> TeamColor.LIGHT_PURPLE;
+         case PINK -> TeamColor.DARK_RED;
          case GRAY -> TeamColor.DARK_GRAY;
          case LIGHT_GRAY -> TeamColor.GRAY;
          case CYAN -> TeamColor.DARK_AQUA;
          case PURPLE -> TeamColor.DARK_PURPLE;
          case BLUE -> TeamColor.BLUE;
-         case BROWN -> TeamColor.GOLD;
+         case BROWN -> TeamColor.DARK_BLUE;
          case GREEN -> TeamColor.DARK_GREEN;
          case RED -> TeamColor.RED;
          case BLACK -> TeamColor.BLACK;

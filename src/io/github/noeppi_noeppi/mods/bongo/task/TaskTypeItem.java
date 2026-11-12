@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -97,12 +98,33 @@ public class TaskTypeItem implements TaskType<ItemStack> {
          : player.getInventory().getNonEquipmentItems().stream().filter(stack -> !stack.isEmpty());
    }
 
+   /**
+    * 比较物品是否满足任务要求。生物桶（鲑鱼桶、鳕鱼桶、蝌蚪桶等）在装到生物后会写入
+    * BUCKET_ENTITY_DATA 实体数据，而任务物品没有该数据，导致 isSameItemSameComponents
+    * 永远不相等、任务无法完成；这里在任一方携带该数据时忽略它再比较。
+    */
+   public static boolean sameForTask(ItemStack a, ItemStack b) {
+      if (ItemStack.isSameItemSameComponents(a, b)) {
+         return true;
+      }
+
+      if (!a.has(DataComponents.BUCKET_ENTITY_DATA) && !b.has(DataComponents.BUCKET_ENTITY_DATA)) {
+         return false;
+      }
+
+      ItemStack copyA = a.copy();
+      ItemStack copyB = b.copy();
+      copyA.remove(DataComponents.BUCKET_ENTITY_DATA);
+      copyB.remove(DataComponents.BUCKET_ENTITY_DATA);
+      return ItemStack.isSameItemSameComponents(copyA, copyB);
+   }
+
    public boolean shouldComplete(ServerPlayer player, ItemStack element, ItemStack compare) {
-      return ItemStack.isSameItemSameComponents(element, compare) && element.getCount() <= compare.getCount();
+      return sameForTask(element, compare) && element.getCount() <= compare.getCount();
    }
 
    public void consume(ServerPlayer player, ItemStack element, ItemStack found) {
-      Util.removeItems(player, element.getCount(), stack -> ItemStack.isSameItemSameComponents(element, stack));
+      Util.removeItems(player, element.getCount(), stack -> sameForTask(element, stack));
    }
 
    public Stream<Highlight<?>> highlight(ItemStack element) {

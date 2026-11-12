@@ -1,5 +1,20 @@
 # Changelog
 
+## 26.2-1.0.0-port.9 — 2026-11-13
+
+### Fixed
+
+- **Mob bucket item tasks**: salmon/cod/pufferfish/tropical fish/axolotl/tadpole
+  buckets carry per-fish entity data, so a plain `salmon_bucket` task could
+  never match the item in a player's inventory. Item task matching now ignores
+  `BUCKET_ENTITY_DATA` when either side has it, both when counting inventory
+  items and when consuming.
+- **Tab list team colors**: the dye-to-TeamColor table mapped two pairs of
+  distinct team colors to the same tab color (orange+brown -> gold,
+  magenta+pink -> light purple), so different teams looked identical in the
+  tab list. All 16 dye colors now map to 16 distinct TeamColors (pink -> dark
+  red, brown -> dark blue).
+
 ## 26.2-1.0.0-port.8 — 2026-11-12
 
 ### Fixed
