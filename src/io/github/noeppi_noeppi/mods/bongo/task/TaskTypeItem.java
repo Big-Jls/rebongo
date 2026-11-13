@@ -102,21 +102,29 @@ public class TaskTypeItem implements TaskType<ItemStack> {
     * 比较物品是否满足任务要求。生物桶（鲑鱼桶、鳕鱼桶、蝌蚪桶等）在装到生物后会写入
     * BUCKET_ENTITY_DATA 实体数据，而任务物品没有该数据，导致 isSameItemSameComponents
     * 永远不相等、任务无法完成；这里在任一方携带该数据时忽略它再比较。
+    * 硫方怪桶还会额外写入 SULFUR_CUBE_CONTENT（吞噬的方块），同样需要忽略。
     */
    public static boolean sameForTask(ItemStack a, ItemStack b) {
       if (ItemStack.isSameItemSameComponents(a, b)) {
          return true;
       }
 
-      if (!a.has(DataComponents.BUCKET_ENTITY_DATA) && !b.has(DataComponents.BUCKET_ENTITY_DATA)) {
+      if (!isBucketVariant(a) && !isBucketVariant(b)) {
          return false;
       }
 
       ItemStack copyA = a.copy();
       ItemStack copyB = b.copy();
       copyA.remove(DataComponents.BUCKET_ENTITY_DATA);
+      copyA.remove(DataComponents.SULFUR_CUBE_CONTENT);
       copyB.remove(DataComponents.BUCKET_ENTITY_DATA);
+      copyB.remove(DataComponents.SULFUR_CUBE_CONTENT);
       return ItemStack.isSameItemSameComponents(copyA, copyB);
+   }
+
+   // 生物桶的变体数据：实体数据 / 硫方怪吞噬的方块
+   private static boolean isBucketVariant(ItemStack stack) {
+      return stack.has(DataComponents.BUCKET_ENTITY_DATA) || stack.has(DataComponents.SULFUR_CUBE_CONTENT);
    }
 
    public boolean shouldComplete(ServerPlayer player, ItemStack element, ItemStack compare) {

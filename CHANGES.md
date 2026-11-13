@@ -1,5 +1,15 @@
 # Changelog
 
+## 26.2-1.0.0-port.10 — 2026-11-14
+
+### Fixed
+
+- **Sulfur cube bucket tasks**: a sulfur cube bucket that has absorbed a block
+  also carries a `SULFUR_CUBE_CONTENT` component, so `sulfur_cube_bucket` tasks
+  still never matched (the port.9 fix only ignored `BUCKET_ENTITY_DATA`). Item
+  task matching now ignores both bucket variant components, covering every mob
+  bucket (tadpole included) as well as sulfur cube buckets.
+
 ## 26.2-1.0.0-port.9 — 2026-11-13
 
 ### Fixed

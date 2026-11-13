@@ -35,7 +35,7 @@ LibX 请使用官方发布版（CurseForge 文件 ID 9409485）。本仓库不�
 ## 安装
 
 1. 安装 NeoForge 26.2.0.93+。
-2. 把 `ReBongo-26.2-1.0.0-port.9.jar` 与 `LibX-26.2-8.0.0.jar` 放入 `mods`。
+2. 把 `ReBongo-26.2-1.0.0-port.10.jar` 与 `LibX-26.2-8.0.0.jar` 放入 `mods`。
    > 从 `26.2-1.0.0-port.6` 起构建产物改名为 `ReBongo-<version>.jar`。升级时请先删除旧的 `Bingo-*.jar`，避免同一个 `modId = bongo` 出现两个 jar。
 3. 客户端与服务端都需要安装。
 4. 进入游戏后由 OP 执行 `/bingo create <tasks_id> <settings_id>` 创建对局。
@@ -71,7 +71,7 @@ LibX 请使用官方发布版（CurseForge 文件 ID 9409485）。本仓库不�
 需要 JDK 25 与一份 NeoForge 26.2.0.93 客户端/服务端安装。示例：
 
 ```powershell
-.\build.ps1 -Version 26.2-1.0.0-port.9 `
+.\build.ps1 -Version 26.2-1.0.0-port.10 `
   -MinecraftDir "D:\minecraft\.minecraft" `
   -NeoForgeVersion "26.2-NeoForge_26.2.0.93" `
   -LibXJar "D:\minecraft\.minecraft\mods\LibX-26.2-8.0.0.jar"
