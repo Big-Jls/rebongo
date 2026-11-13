@@ -1,5 +1,16 @@
 # Changelog
 
+## 26.2-1.0.0-port.11 — 2026-11-14
+
+### Fixed
+
+- **Bucket item tasks**: tropical fish buckets store their variant in the
+  separate `TROPICAL_FISH_PATTERN`, `TROPICAL_FISH_BASE_COLOR` and
+  `TROPICAL_FISH_PATTERN_COLOR` components rather than `BUCKET_ENTITY_DATA`,
+  so `tropical_fish_bucket` tasks still never matched. Item task matching now
+  also strips `SALMON_SIZE` (salmon bucket) and `AXOLOTL_VARIANT` (axolotl
+  bucket) alongside the previously handled bucket components.
+
 ## 26.2-1.0.0-port.10 — 2026-11-14
 
 ### Fixed

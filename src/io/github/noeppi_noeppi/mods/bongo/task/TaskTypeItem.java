@@ -99,9 +99,9 @@ public class TaskTypeItem implements TaskType<ItemStack> {
    }
 
    /**
-    * 比较物品是否满足任务要求。生物桶（鲑鱼桶、鳕鱼桶、蝌蚪桶等）在装到生物后会写入
-    * BUCKET_ENTITY_DATA 实体数据，而任务物品没有该数据，导致 isSameItemSameComponents
-    * 永远不相等、任务无法完成；这里在任一方携带该数据时忽略它再比较。
+    * 比较物品是否满足任务要求。生物桶（鲑鱼桶、鳕鱼桶、蝌蚪桶、热带鱼桶、美西螈桶等）在装到生物后会写入
+    * 变体数据（BUCKET_ENTITY_DATA、SALMON_SIZE、TROPICAL_FISH_*、AXOLOTL_VARIANT 等），而任务物品没有这些数据，
+    * 导致 isSameItemSameComponents 永远不相等、任务无法完成；这里在任一方携带变体数据时先剥离再比较。
     * 硫方怪桶还会额外写入 SULFUR_CUBE_CONTENT（吞噬的方块），同样需要忽略。
     */
    public static boolean sameForTask(ItemStack a, ItemStack b) {
@@ -115,16 +115,30 @@ public class TaskTypeItem implements TaskType<ItemStack> {
 
       ItemStack copyA = a.copy();
       ItemStack copyB = b.copy();
-      copyA.remove(DataComponents.BUCKET_ENTITY_DATA);
-      copyA.remove(DataComponents.SULFUR_CUBE_CONTENT);
-      copyB.remove(DataComponents.BUCKET_ENTITY_DATA);
-      copyB.remove(DataComponents.SULFUR_CUBE_CONTENT);
+      stripBucketVariant(copyA);
+      stripBucketVariant(copyB);
       return ItemStack.isSameItemSameComponents(copyA, copyB);
    }
 
-   // 生物桶的变体数据：实体数据 / 硫方怪吞噬的方块
+   // 生物桶的变体数据：实体数据 / 鲑鱼体型 / 热带鱼花纹与颜色 / 美西螈变种 / 硫方怪吞噬的方块
    private static boolean isBucketVariant(ItemStack stack) {
-      return stack.has(DataComponents.BUCKET_ENTITY_DATA) || stack.has(DataComponents.SULFUR_CUBE_CONTENT);
+      return stack.has(DataComponents.BUCKET_ENTITY_DATA)
+         || stack.has(DataComponents.SULFUR_CUBE_CONTENT)
+         || stack.has(DataComponents.SALMON_SIZE)
+         || stack.has(DataComponents.TROPICAL_FISH_PATTERN)
+         || stack.has(DataComponents.TROPICAL_FISH_BASE_COLOR)
+         || stack.has(DataComponents.TROPICAL_FISH_PATTERN_COLOR)
+         || stack.has(DataComponents.AXOLOTL_VARIANT);
+   }
+
+   private static void stripBucketVariant(ItemStack stack) {
+      stack.remove(DataComponents.BUCKET_ENTITY_DATA);
+      stack.remove(DataComponents.SULFUR_CUBE_CONTENT);
+      stack.remove(DataComponents.SALMON_SIZE);
+      stack.remove(DataComponents.TROPICAL_FISH_PATTERN);
+      stack.remove(DataComponents.TROPICAL_FISH_BASE_COLOR);
+      stack.remove(DataComponents.TROPICAL_FISH_PATTERN_COLOR);
+      stack.remove(DataComponents.AXOLOTL_VARIANT);
    }
 
    public boolean shouldComplete(ServerPlayer player, ItemStack element, ItemStack compare) {
