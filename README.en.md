@@ -35,7 +35,7 @@ Use the official LibX release (CurseForge file ID 9409485). This repository does
 ## Installation
 
 1. Install NeoForge 26.2.0.93+.
-2. Put `ReBongo-26.2-1.0.0-port.11.jar` and `LibX-26.2-8.0.0.jar` into `mods`.
+2. Put `ReBongo-26.2-1.0.0-port.12.jar` and `LibX-26.2-8.0.0.jar` into `mods`.
    > Since `26.2-1.0.0-port.6` the artifact is named `ReBongo-<version>.jar`. Remove old `Bingo-*.jar` files when upgrading, otherwise the same `modId = bongo` will be loaded twice.
 3. Install on both client and server.
 4. In game, an operator runs `/bingo create <tasks_id> <settings_id>` to create a game.
@@ -71,7 +71,7 @@ The default key **Y** expands the whole Bingo card; its size and position can be
 Requires JDK 25 and a NeoForge 26.2.0.93 client/server installation. Example:
 
 ```powershell
-.\build.ps1 -Version 26.2-1.0.0-port.11 `
+.\build.ps1 -Version 26.2-1.0.0-port.12 `
   -MinecraftDir "D:\minecraft\.minecraft" `
   -NeoForgeVersion "26.2-NeoForge_26.2.0.93" `
   -LibXJar "D:\minecraft\.minecraft\mods\LibX-26.2-8.0.0.jar"

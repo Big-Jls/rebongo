@@ -103,20 +103,38 @@ public class TaskTypeItem implements TaskType<ItemStack> {
     * 变体数据（BUCKET_ENTITY_DATA、SALMON_SIZE、TROPICAL_FISH_*、AXOLOTL_VARIANT 等），而任务物品没有这些数据，
     * 导致 isSameItemSameComponents 永远不相等、任务无法完成；这里在任一方携带变体数据时先剥离再比较。
     * 硫方怪桶还会额外写入 SULFUR_CUBE_CONTENT（吞噬的方块），同样需要忽略。
+    * 成书与附魔书同理：任务定义通常只写物品 id（没有 WRITTEN_BOOK_CONTENT / STORED_ENCHANTMENTS），
+    * 而玩家实际写好的书一定带内容组件；仅当一方缺失该组件时忽略它，若双方都指定了内容仍按内容精确比较。
     */
    public static boolean sameForTask(ItemStack a, ItemStack b) {
       if (ItemStack.isSameItemSameComponents(a, b)) {
          return true;
       }
 
-      if (!isBucketVariant(a) && !isBucketVariant(b)) {
+      boolean stripBuckets = isBucketVariant(a) || isBucketVariant(b);
+      boolean stripWrittenBook = a.has(DataComponents.WRITTEN_BOOK_CONTENT) != b.has(DataComponents.WRITTEN_BOOK_CONTENT);
+      boolean stripEnchantedBook = a.has(DataComponents.STORED_ENCHANTMENTS) != b.has(DataComponents.STORED_ENCHANTMENTS);
+      if (!stripBuckets && !stripWrittenBook && !stripEnchantedBook) {
          return false;
       }
 
       ItemStack copyA = a.copy();
       ItemStack copyB = b.copy();
-      stripBucketVariant(copyA);
-      stripBucketVariant(copyB);
+      if (stripBuckets) {
+         stripBucketVariant(copyA);
+         stripBucketVariant(copyB);
+      }
+
+      if (stripWrittenBook) {
+         copyA.remove(DataComponents.WRITTEN_BOOK_CONTENT);
+         copyB.remove(DataComponents.WRITTEN_BOOK_CONTENT);
+      }
+
+      if (stripEnchantedBook) {
+         copyA.remove(DataComponents.STORED_ENCHANTMENTS);
+         copyB.remove(DataComponents.STORED_ENCHANTMENTS);
+      }
+
       return ItemStack.isSameItemSameComponents(copyA, copyB);
    }
 

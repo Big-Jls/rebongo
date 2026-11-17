@@ -1,5 +1,16 @@
 # Changelog
 
+## 26.2-1.0.0-port.12 — 2026-11-18
+
+### Fixed
+
+- **Written Book / Enchanted Book item tasks**: task definitions only specify
+  the item id, but real books always carry `WRITTEN_BOOK_CONTENT` or
+  `STORED_ENCHANTMENTS`, so `isSameItemSameComponents` never matched. Item
+  matching now ignores those components when only one side has them, which
+  makes the 成书 / 附魔书 tasks completable; if both sides specify content, it
+  is still compared exactly.
+
 ## 26.2-1.0.0-port.11 — 2026-11-14
 
 ### Fixed
