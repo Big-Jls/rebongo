@@ -1,5 +1,7 @@
 # ReBongo — Bongo 的非官方 NeoForge 26.2 移植
 
+> English: [README.en.md](README.en.md)
+
 > **原项目（上游）**
 > - Bongo — <https://github.com/noeppi-noeppi/Bongo>
 > - BingoLobby — <https://github.com/noeppi-noeppi/BingoLobby>
