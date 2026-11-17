@@ -160,7 +160,7 @@ public class EventListener {
                if (!stack.isEmpty()) {
                   for (Entry<ItemStack, Integer> entry : stacks.entrySet()) {
                      ItemStack test = entry.getKey();
-                     if (TaskTypeItem.sameForTask(stack, test)) {
+                     if (TaskTypeItem.sameForTask(test, stack)) {
                         entry.setValue(entry.getValue() + stack.getCount());
                      }
                   }

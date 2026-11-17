@@ -1,5 +1,25 @@
 # Changelog
 
+## 26.2-1.0.0-port.13 — 2026-11-18
+
+### Fixed
+
+- **Item tasks now match every component state**: 26.2 keeps most item state in
+  data components — durability (`DAMAGE` / `REPAIR_COST`), enchantments, potion
+  contents, fireworks, banner patterns, shield colors, bees in bee nests,
+  shulker box / bundle contents, armor trims, goat horn instruments, map ids,
+  charged crossbows, written/writable book contents, enchanted books, mob
+  bucket variants, block-entity data and more. Task definitions only specify the
+  item id, so `isSameItemSameComponents` could never match these items. Plain
+  item tasks now compare the item type only; tasks that do specify components
+  compare just the specified ones, so "specific potion / specific enchantment"
+  style tasks still work.
+- Named, lored, `custom_data`-marked or unbreakable items (hex-granted quest
+  items such as the fisherman rod or sea god trident) still do not count for
+  plain tasks, so skill items cannot light up the board by themselves.
+- This supersedes the per-component special cases from port.9–port.12 (buckets
+  and books) with one general rule.
+
 ## 26.2-1.0.0-port.12 — 2026-11-18
 
 ### Fixed

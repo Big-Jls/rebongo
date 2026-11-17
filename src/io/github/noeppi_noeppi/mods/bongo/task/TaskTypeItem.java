@@ -16,10 +16,15 @@ import io.github.noeppi_noeppi.mods.bongo.util.ItemRenderUtil;
 import io.github.noeppi_noeppi.mods.bongo.util.StackTagReader;
 import io.github.noeppi_noeppi.mods.bongo.util.Util;
 import java.util.Comparator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -30,6 +35,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemLore;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.moddingx.libx.base.BlockBase;
@@ -99,64 +105,57 @@ public class TaskTypeItem implements TaskType<ItemStack> {
    }
 
    /**
-    * 比较物品是否满足任务要求。生物桶（鲑鱼桶、鳕鱼桶、蝌蚪桶、热带鱼桶、美西螈桶等）在装到生物后会写入
-    * 变体数据（BUCKET_ENTITY_DATA、SALMON_SIZE、TROPICAL_FISH_*、AXOLOTL_VARIANT 等），而任务物品没有这些数据，
-    * 导致 isSameItemSameComponents 永远不相等、任务无法完成；这里在任一方携带变体数据时先剥离再比较。
-    * 硫方怪桶还会额外写入 SULFUR_CUBE_CONTENT（吞噬的方块），同样需要忽略。
-    * 成书与附魔书同理：任务定义通常只写物品 id（没有 WRITTEN_BOOK_CONTENT / STORED_ENCHANTMENTS），
-    * 而玩家实际写好的书一定带内容组件；仅当一方缺失该组件时忽略它，若双方都指定了内容仍按内容精确比较。
+    * 比较物品是否满足任务要求。required 是任务定义的物品，found 是玩家实际持有（或用于判定）的物品。
+    *
+    * 26.2 把大量物品状态放进了数据组件：耐久（DAMAGE / REPAIR_COST）、附魔（ENCHANTMENTS）、
+    * 药水内容（POTION_CONTENTS）、烟花数据（FIREWORKS / FIREWORK_EXPLOSION）、旗帜与盾牌图案
+    * （BANNER_PATTERNS / BASE_COLOR）、蜂巢蜜蜂（BEES）、潜影盒与收纳袋内容（CONTAINER /
+    * BUNDLE_CONTENTS）、盔甲纹饰（TRIM）、山羊角乐器（INSTRUMENT）、地图编号（MAP_ID）、
+    * 弩装填（CHARGED_PROJECTILES）、书本内容（WRITTEN_BOOK_CONTENT / WRITABLE_BOOK_CONTENT /
+    * STORED_ENCHANTMENTS / RECIPES）、生物桶变体（BUCKET_ENTITY_DATA / SALMON_SIZE /
+    * TROPICAL_FISH_* / AXOLOTL_VARIANT / SULFUR_CUBE_CONTENT）、方块实体数据（BLOCK_ENTITY_DATA /
+    * POT_DECORATIONS）等。任务定义通常只写物品 id（没有显式组件），逐组件比较会让这些物品
+    * 永远无法完成任务。
+    *
+    * 规则：
+    * 1. 任务没有显式组件时，只比较物品类型，上述组件全部忽略；
+    * 2. 任务显式指定组件时，只比较任务指定的组件，未指定的组件仍忽略（支持“指定药水/指定附魔”等任务）；
+    * 3. 带命名、Lore、custom_data 或无法破坏标记的物品视为特殊/技能道具，不参与普通任务，
+    *    避免海克斯发放的命名道具（钓鱼佬鱼竿、海神三叉戟等）直接点亮任务。
     */
-   public static boolean sameForTask(ItemStack a, ItemStack b) {
-      if (ItemStack.isSameItemSameComponents(a, b)) {
-         return true;
-      }
-
-      boolean stripBuckets = isBucketVariant(a) || isBucketVariant(b);
-      boolean stripWrittenBook = a.has(DataComponents.WRITTEN_BOOK_CONTENT) != b.has(DataComponents.WRITTEN_BOOK_CONTENT);
-      boolean stripEnchantedBook = a.has(DataComponents.STORED_ENCHANTMENTS) != b.has(DataComponents.STORED_ENCHANTMENTS);
-      if (!stripBuckets && !stripWrittenBook && !stripEnchantedBook) {
+   public static boolean sameForTask(ItemStack required, ItemStack found) {
+      if (!ItemStack.isSameItem(required, found)) {
          return false;
       }
 
-      ItemStack copyA = a.copy();
-      ItemStack copyB = b.copy();
-      if (stripBuckets) {
-         stripBucketVariant(copyA);
-         stripBucketVariant(copyB);
+      DataComponentPatch spec = required.getComponentsPatch();
+      if (spec.isEmpty()) {
+         return !isSpecialItem(found);
       }
 
-      if (stripWrittenBook) {
-         copyA.remove(DataComponents.WRITTEN_BOOK_CONTENT);
-         copyB.remove(DataComponents.WRITTEN_BOOK_CONTENT);
+      for (Map.Entry<DataComponentType<?>, Optional<?>> entry : spec.entrySet()) {
+         if (!componentMatches(found, entry.getKey(), entry.getValue())) {
+            return false;
+         }
       }
 
-      if (stripEnchantedBook) {
-         copyA.remove(DataComponents.STORED_ENCHANTMENTS);
-         copyB.remove(DataComponents.STORED_ENCHANTMENTS);
-      }
-
-      return ItemStack.isSameItemSameComponents(copyA, copyB);
+      return true;
    }
 
-   // 生物桶的变体数据：实体数据 / 鲑鱼体型 / 热带鱼花纹与颜色 / 美西螈变种 / 硫方怪吞噬的方块
-   private static boolean isBucketVariant(ItemStack stack) {
-      return stack.has(DataComponents.BUCKET_ENTITY_DATA)
-         || stack.has(DataComponents.SULFUR_CUBE_CONTENT)
-         || stack.has(DataComponents.SALMON_SIZE)
-         || stack.has(DataComponents.TROPICAL_FISH_PATTERN)
-         || stack.has(DataComponents.TROPICAL_FISH_BASE_COLOR)
-         || stack.has(DataComponents.TROPICAL_FISH_PATTERN_COLOR)
-         || stack.has(DataComponents.AXOLOTL_VARIANT);
+   private static boolean componentMatches(ItemStack stack, DataComponentType<?> type, Optional<?> expected) {
+      return Objects.equals(stack.get((DataComponentType)type), expected.orElse(null));
    }
 
-   private static void stripBucketVariant(ItemStack stack) {
-      stack.remove(DataComponents.BUCKET_ENTITY_DATA);
-      stack.remove(DataComponents.SULFUR_CUBE_CONTENT);
-      stack.remove(DataComponents.SALMON_SIZE);
-      stack.remove(DataComponents.TROPICAL_FISH_PATTERN);
-      stack.remove(DataComponents.TROPICAL_FISH_BASE_COLOR);
-      stack.remove(DataComponents.TROPICAL_FISH_PATTERN_COLOR);
-      stack.remove(DataComponents.AXOLOTL_VARIANT);
+   // 特殊/技能道具：命名、非空 Lore、海克斯发放标记（custom_data）或无法破坏。
+   // 注意：26.2 所有物品的原型都带一个空的 LORE，必须检查 lines 是否为空，不能只用 has。
+   private static boolean isSpecialItem(ItemStack stack) {
+      if (stack.has(DataComponents.CUSTOM_NAME)
+         || stack.has(DataComponents.CUSTOM_DATA)
+         || stack.has(DataComponents.UNBREAKABLE)) {
+         return true;
+      }
+      ItemLore lore = stack.get(DataComponents.LORE);
+      return lore != null && !lore.lines().isEmpty();
    }
 
    public boolean shouldComplete(ServerPlayer player, ItemStack element, ItemStack compare) {
